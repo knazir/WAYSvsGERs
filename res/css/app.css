@@ -72,7 +72,7 @@ section {
 
 section .text {
     padding: 0 2.5%;
-    width: 50%;
+    width: 33%;
 }
 
 section .graphic {
@@ -80,7 +80,7 @@ section .graphic {
     top: 25vh;
     bottom: 25vh;
     padding: 0 2.5%;
-    width: 50%;
+    width: 67%;
     height: 50vh;
 }
 
