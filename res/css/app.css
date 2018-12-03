@@ -1,71 +1,101 @@
+/*** Overall Styling ***/
+
 body {
     margin: 0;
-    padding: 0;
+    padding: 0 0 25px 0;
+    width: 100vw;
+
+    font-family: "Open Sans", sans-serif;
+    line-height: 2;
 }
 
-.links {
-    stroke: rgba(0,0,0,0.4);
-}
-
-.toggle {
+article {
     position: relative;
-    display: inline-block;
-    width: 100px;
-    height: 30px;
-}
-
-.toggle input {
-    display:none;
-}
-
-.slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #db7f67;
-    -webkit-transition: 100ms;
-    transition: 100ms;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 5px;
-    bottom: 5px;
-    background-color: white;
-    -webkit-transition: 100ms;
-    transition: 100ms;
-}
-
-input:checked + .slider {
-    background-color: #1b998b;
-}
-
-input:checked + .slider:before {
-    -webkit-transform: translateX(70px);
-    -ms-transform: translateX(70px);
-    transform: translateX(70px);
-}
-
-#tooltip {
-    position: absolute;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    padding: 5px;
-    min-width: 60px;
-    min-height: 30px;
-    font: 12px sans-serif;
-    background: lightsteelblue;
-    border: 0;
-    border-radius: 8px;
-    pointer-events: none;
 }
 
-#tooltip strong {
-    margin-right: 3px;
+/*** Intro ***/
+
+.credits {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 20px;
+    height: 40px;
+    width: 100%;
+
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh - 40px); /* subtract credits height */
+    padding: 0 10%;
+
+    background-color: #f8f9f9;
+
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.intro {
+    padding: 20px 20%;
+    font-size: 22px;
+    background-color: #f8f9f9;
+}
+
+.intro::first-letter {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+/*** Generic Sections ***/
+
+.section-title {
+    margin: 20px 0;
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+}
+
+section {
+    display: flex;
+    width: 100%;
+}
+
+section .text {
+    padding: 0 2.5%;
+    width: 50%;
+}
+
+section .graphic {
+    position: sticky;
+    top: 25vh;
+    bottom: 25vh;
+    padding: 0 2.5%;
+    width: 50%;
+    height: 50vh;
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.step:not(:last-of-type) {
+    margin-bottom: 400px;
+}
+
+/*** Flexibility ***/
+
+.flexibility {
+    padding: 40px 2.5%;
 }
