@@ -1,66 +1,44 @@
-/* Expects data in the form of:
- *  [
- *    {
- *      label: <string>,
- *      data: [
- *        {
- *          name: <string>,
- *          value: <number>
- *        },
- *        {
- *          name: <string>,
- *          value: <number>
- *        }
- *      ]
- *    }
- *  ]
- *  Where each top-level array element represents a separate donut chart that expects a label, names, and values.
- */
 class MultiDonutChart {
-  constructor(chart, data, opts = {}) {
-    const svg = chart.append("svg")
-      .attr("width", "100%")
-      .attr("height", "100%");
+  constructor(container, opts = {}, datasets = []) {
+    container.innerHTML = "";
 
-    const { width, height } = svg.node().getBoundingClientRect();
+    this.canvasGrid = document.createElement("div");
+    this.canvasGrid.classList.add("canvas-grid");
 
-    const maxDonutsPerRow = 5;
-    const margin = 15;
-    const donutDiameter = (width / maxDonutsPerRow) - margin;
-    const nRows = Math.ceil(data.length / maxDonutsPerRow);
+    const { width, height } = container.getBoundingClientRect();
+    this.width = width;
+    this.height = height;
 
-    // setup colors for all non "other" department names
-    let color = null;
-    if (opts.useGlobalColors) {
-      let allNames = new Set();
-      data.forEach(donutData => donutData.data.forEach(donutPortion => allNames.add(donutPortion.name)));
-      allNames = Array.from(allNames);
-      color = d3.scaleOrdinal()
-        .domain(allNames)
-        .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), allNames.length).reverse());
-    }
+    const maxDonutsPerRow = opts.maxDonutsPerRow || 5;
+    const margin = opts.margin || 15;
+    const donutDiameter = (this.width / (maxDonutsPerRow)) - margin;
+    const nRows = Math.ceil(datasets.length / maxDonutsPerRow);
 
-    // create individual donut charts
-    this.donuts = [];
-    for (let i = 0; i < data.length; i++) {
-      const col = i % maxDonutsPerRow;
-      const row = Math.floor(i / maxDonutsPerRow);
+    const gridTemplate = [];
+    for (let i = 0; i < maxDonutsPerRow; i++) gridTemplate.push(`${donutDiameter}px`);
+    this.canvasGrid.style.gridTemplateColumns = gridTemplate.join(" ");
+    this.canvasGrid.style.gridTemplateRows = gridTemplate.slice(0, nRows).join(" ");
+    this.canvasGrid.style.gridRowGap = `${margin}px`;
+    this.canvasGrid.style.gridColumnGap = `${margin}px`;
 
-      // offset for centering
-      let offset = 0;
-      if (row === nRows - 1) {
-        const numInRow = data.length % maxDonutsPerRow;
-        const widthOfRow = numInRow * donutDiameter + ((numInRow - 1) * margin);
-        const leftoverWidth = width - widthOfRow;
-        offset = leftoverWidth / 2;
-      }
+    container.append(this.canvasGrid);
 
-      let x = offset + (col * donutDiameter);
-      if (x > 0) x += col * margin;
-      let y = row * donutDiameter;
-      if (y > 0) y += row * margin;
+    this.canvases = [];
+    this.charts = [];
+    datasets.forEach(dataset => {
+      const canvas = document.createElement("canvas");
+      canvas.style.width = canvas.width = donutDiameter;
+      canvas.style.height = canvas.height = donutDiameter;
+      this.canvasGrid.appendChild(canvas);
+      this.canvases.push(canvas);
 
-      this.donuts.push(new DonutChart(x, y, donutDiameter / 2, svg, data[i], Object.assign(opts, { color })));
-    }
+      const opts = {
+        chartOpts: {
+          title: { display: true, text: dataset.label }
+        }
+      };
+
+      this.charts.push(new DonutChart(canvas, opts, dataset));
+    });
   }
 }

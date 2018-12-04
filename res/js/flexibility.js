@@ -30,8 +30,8 @@ const WAYS = {
 };
 
 const gerPieChartOtherCutoff = 0.03;
-
 const graphicsOrder = [GER_BARS, WAYS_BARS, GER_PIES, WAYS_PIES_DEPTS, WAYS_PIES_GERS];
+let activeChart = null;
 
 // store results for each setup so we don't recompute
 const existingData = {};
@@ -61,7 +61,7 @@ function formatCourse(course) {
 }
 
 async function fetchData() {
-  const courses = await d3.csv("res/data/courses_2012_2013.csv", formatCourse);
+  const courses = await d3.csv("res/data/courses_2013_2014.csv", formatCourse);
   return courses.filter(course => course.ways.length > 0 || course.gers.length > 0);
 }
 
@@ -122,7 +122,13 @@ function computeDepartmentMakeup(courses, system) {
 function setupGerBars(courses, visual) {
   console.log(GER_BARS);
   const counts = computeCounts(courses, GERS);
-  new BarChart(d3.select(".flexibility .graphic"), counts);
+  const opts = {
+    chartOpts: { title: { display: true, text: "Distribution of GERs" } },
+    sorted: true,
+    reversed: true
+  };
+  const chart = new BarChart(document.querySelector(".flexibility .graphic canvas"), opts);
+  chart.addData("GERs", counts);
 }
 
 /*** WAYS Bars ***/
@@ -130,7 +136,15 @@ function setupGerBars(courses, visual) {
 function setupWaysBars(courses, visual) {
   console.log(WAYS_BARS);
   const counts = computeCounts(courses, WAYS);
-  new BarChart(d3.select(".flexibility .graphic"), counts);
+  const opts = {
+    chartOpts: {
+      title: { display: true, text: "Distribution of WAYS Requirements" }
+    },
+    sorted: true,
+    reversed: true
+  };
+  const chart = new BarChart(document.querySelector(".flexibility .graphic canvas"), opts);
+  chart.addData("WAYS", counts);
 }
 
 /*** GER Pies ***/
@@ -138,48 +152,7 @@ function setupWaysBars(courses, visual) {
 function setupGerPies(courses, visual) {
   console.log(GER_PIES);
   const { chartData } = computeDepartmentMakeup(courses, GERS);
-
-  // sub and sub subtitles
-  const subtitle = data => {
-    let nDepartments = data.length;
-    for (const dept of data) {
-      if (dept.name === "OTHER") {
-        nDepartments--;
-        nDepartments += Object.keys(dept.breakdown).length;
-      }
-    }
-    return `${nDepartments} Departments`;
-  };
-
-  const subSubtitle = data => {
-    let nDepartments = data.length;
-    let nCourses = 0;
-    data.forEach(dept => nCourses += dept.value);
-    return `${nCourses} Courses`;
-  };
-
-  const tooltip = (data, total) => {
-    const percentage = n => `${(n * 100).toFixed(2)}%`;
-
-    if (data.name === "OTHER") {
-      const otherDepts = Object.entries(data.breakdown).map(([dept, count]) =>{
-        return `<em>${dept}</em>: ${count} courses (${percentage(count / total)})`;
-      }).join("<br/>");
-      return `
-      <strong>${Object.keys(data.breakdown).length} Other Departments (${percentage(data.value / total)})</strong>:<br/>
-      ${otherDepts}
-      `;
-    }
-    return `
-    <strong>${data.name}</strong><br/>
-    ${data.value} Courses<br/>
-    ${percentage(data.value / total)}
-    `;
-  };
-
-  const opts = { subtitle, subSubtitle, tooltip };
-
-  new MultiDonutChart(d3.select(".flexibility .graphic"), chartData, opts);
+  const chart = new MultiDonutChart(document.querySelector(".flexibility .graphic"), {}, chartData);
 }
 
 /*** WAYS Pies Depts ***/
@@ -187,48 +160,7 @@ function setupGerPies(courses, visual) {
 function setupWaysPiesDepts(courses, visual) {
   console.log(WAYS_PIES_DEPTS);
   const { chartData } = computeDepartmentMakeup(courses, WAYS);
-
-  // sub and sub subtitles
-  const subtitle = data => {
-    let nDepartments = data.length;
-    for (const dept of data) {
-      if (dept.name === "OTHER") {
-        nDepartments--;
-        nDepartments += Object.keys(dept.breakdown).length;
-      }
-    }
-    return `${nDepartments} Departments`;
-  };
-
-  const subSubtitle = data => {
-    let nDepartments = data.length;
-    let nCourses = 0;
-    data.forEach(dept => nCourses += dept.value);
-    return `${nCourses} Courses`;
-  };
-
-  const tooltip = (data, total) => {
-    const percentage = n => `${(n * 100).toFixed(2)}%`;
-
-    if (data.name === "OTHER") {
-      const otherDepts = Object.entries(data.breakdown).map(([dept, count]) =>{
-        return `<em>${dept}</em>: ${count} courses (${percentage(count / total)})`;
-      }).join("<br/>");
-      return `
-      <strong>${Object.keys(data.breakdown).length} Other Departments (${percentage(data.value / total)})</strong>:<br/>
-      ${otherDepts}
-      `;
-    }
-    return `
-    <strong>${data.name}</strong><br/>
-    ${data.value} Courses<br/>
-    ${percentage(data.value / total)}
-    `;
-  };
-
-  const opts = { subtitle, subSubtitle, tooltip };
-
-  new MultiDonutChart(d3.select(".flexibility .graphic"), chartData, opts);
+  const chart = new MultiDonutChart(document.querySelector(".flexibility .graphic"), {}, chartData);
 }
 
 /*** WAYS Pies GERs ***/
@@ -264,48 +196,13 @@ function computeWaysGerMakeup(courses) {
 function setupWaysPiesGers(courses, visual) {
   console.log(WAYS_PIES_GERS);
   const { waysGerMakeup, chartData } = computeWaysGerMakeup(courses);
+  const chart = new MultiDonutChart(document.querySelector(".flexibility .graphic"), {}, chartData);
+}
 
-  // sub and sub subtitles
-  const subtitle = data => {
-    let nGers = data.length;
-    for (const ger of data) {
-      if (ger.name === "NEW") nGers--;
-    }
-    return `${nGers} GERs`;
-  };
+/*** Comparison ***/
 
-  const subSubtitle = (data, way) => {
-    let uniqueDepartments = new Set();
-    Object.values(waysGerMakeup[way]).forEach(({ departments }) => departments.forEach(d => uniqueDepartments.add(d)));
-    return `${uniqueDepartments.size} Departments`;
-  };
+function setupComparison(courses, visual) {
 
-  const tooltip = (data, total, way) => {
-    const percentage = n => `${(n * 100).toFixed(2)}%`;
-
-    if (data.name === "NEW") {
-      const newDepts = Array.from(waysGerMakeup[way]["NEW"].departments);
-      const descr = newDepts.map(dept => `<em>${dept}</em>`).join("<br/>");
-      return `
-      <strong>${newDepts.length} New Departments (${percentage(data.value / total)})</strong>:<br/>
-      ${descr}
-      `;
-    }
-
-    const depts = Array.from(waysGerMakeup[way][data.name].departments);
-    const descr = depts.map(dept => `<em>${dept}</em>`).join("<br/>");
-    return `
-    <strong>
-        ${data.name}<br/>
-        ${data.value} Departments (${percentage(data.value / total)})<br/>
-    </strong>
-    ${descr}
-    `;
-  };
-
-  const opts = { subtitle, subSubtitle, tooltip, useGlobalColors: true };
-
-  new MultiDonutChart(d3.select(".flexibility .graphic"), chartData, opts);
 }
 
 /*** Main ***/
@@ -313,11 +210,8 @@ function setupWaysPiesGers(courses, visual) {
 runMain(async function() {
   const courses = await fetchData();
   const visual = d3.select(".flexibility .graphic");
-  const tooltip = d3.select("#tooltip");
-
   const setupGraphic = graphic => {
-    visual.node().innerHTML = "";
-    tooltip.html("").style("left", 0).style("top", 0);
+    visual.node().innerHTML = "<canvas></canvas>";
     switch (graphic) {
       case GER_BARS: return setupGerBars(courses, visual);
       case GER_PIES: return setupGerPies(courses, visual);
@@ -330,14 +224,13 @@ runMain(async function() {
 
   enterView({
     selector: ".flexibility .text .step",
-    offset: 0.5,
+    offset: 0.6,
     enter: element => {
       const index = Number(d3.select(element).attr("data-index"));
       setupGraphic(graphicsOrder[index]);
     },
     exit: element => {
-      let index = Number(d3.select(element).attr("data-index"));
-      index = Math.max(0, index - 1);
+      let index = Number(d3.select(element).attr("data-index")) - 1;
       setupGraphic(graphicsOrder[index]);
     }
   })

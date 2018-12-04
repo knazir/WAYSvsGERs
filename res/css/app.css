@@ -83,41 +83,31 @@ section .text {
 
 section .graphic {
     position: sticky;
-    top: 20vh;
+    top: 0;
+    left: 0;
     bottom: 10vh;
     display: flex;
     justify-content: center;
     padding: 0 2.5%;
-    height: 70vh;
+    height: 60vh;
     width: 100%;
 }
 
-img {
-    display: block;
-    width: 300px;
-    height: 200px;
+section .graphic canvas {
+    height: 100%;
+    width: 100%;
+}
+
+section .graphic .canvas-grid {
+    display: grid;
+}
+
+section .graphic .canvas-grid canvas {
+
 }
 
 .step:not(:last-of-type) {
     margin-bottom: 600px;
-}
-
-/*** Tooltips ***/
-#tooltip {
-    position: absolute;
-    padding: 10px 20px;
-    z-index: 9001;
-
-    /*max-height: 25vh;*/
-    /*overflow: auto;*/
-
-    background: lightsteelblue;
-    text-align: center;
-    font: 12px sans-serif;
-    border: 0;
-    border-radius: 8px;
-
-    pointer-events: none;
 }
 
 /*** Flexibility ***/

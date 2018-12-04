@@ -10,6 +10,7 @@
     <script src="https:://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="res/lib/enter-view.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="res/css/app.css">
@@ -29,7 +30,6 @@
     <script src="res/js/flexibility.js" defer></script>
 </head>
 <body>
-    <div id="tooltip" style="opacity: 0"></div>
     <article>
         <!-- Intro -->
         <div class="credits">
@@ -99,7 +99,9 @@
                 </div>
             </div>
             <div class="graphic">
-
+                <div>
+                    <canvas></canvas>
+                </div>
             </div>
         </section>
     </article>

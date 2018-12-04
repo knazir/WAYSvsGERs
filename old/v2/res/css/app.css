@@ -1,0 +1,135 @@
+/*** Overall Styling ***/
+
+body {
+    margin: 0;
+    padding: 0 0 25px 0;
+    width: 100vw;
+
+    font-family: "Open Sans", sans-serif;
+    line-height: 2;
+}
+
+article {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*** Intro ***/
+
+.credits {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 20px;
+    height: 40px;
+    width: 100%;
+
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh - 40px); /* subtract credits height */
+    padding: 0 10%;
+
+    background-color: #f8f9f9;
+
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.intro {
+    padding: 20px 10% 300px 10%;
+    font-size: 22px;
+    background-color: #f8f9f9;
+}
+
+.intro::first-letter {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+/*** Generic Sections ***/
+
+section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+header div {
+    border-bottom: 1px solid lightgray;
+}
+
+section .text {
+    pointer-events: none;
+}
+
+section .graphic {
+    position: sticky;
+    top: 20vh;
+    bottom: 10vh;
+    display: flex;
+    justify-content: center;
+    padding: 0 2.5%;
+    height: 70vh;
+    width: 100%;
+}
+
+img {
+    display: block;
+    width: 300px;
+    height: 200px;
+}
+
+.step:not(:last-of-type) {
+    margin-bottom: 600px;
+}
+
+/*** Tooltips ***/
+#tooltip {
+    position: absolute;
+    padding: 10px 20px;
+    z-index: 9001;
+
+    /*max-height: 25vh;*/
+    /*overflow: auto;*/
+
+    background: lightsteelblue;
+    text-align: center;
+    font: 12px sans-serif;
+    border: 0;
+    border-radius: 8px;
+
+    pointer-events: none;
+}
+
+/*** Flexibility ***/
+
+.flexibility {
+    padding: 40px 5%;
+}
+
+header.flexibility {
+    background-color: #f9f6ef;
+}
+
+.flexibility.intro {
+    background-color: #f9f6ef;
+}

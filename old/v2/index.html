@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Evolution of General Education Requirements at Stanford University</title>
+
+    <!-- Libraries -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https:://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="res/lib/enter-view.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="res/css/app.css">
+
+    <!-- JavaScript -->
+
+    <!-- Components -->
+    <script src="res/js/components/BarChart.js" defer></script>
+    <script src="res/js/components/DonutChart.js" defer></script>
+    <script src="res/js/components/MultiDonutChart.js" defer></script>
+
+    <!-- Main App -->
+    <script src="res/js/util.js" defer></script>
+    <script src="res/js/app.js" defer></script>
+
+    <!-- Sections -->
+    <script src="res/js/flexibility.js" defer></script>
+</head>
+<body>
+    <div id="tooltip" style="opacity: 0"></div>
+    <article>
+        <!-- Intro -->
+        <div class="credits">
+            <div>
+                By <strong>Karen Huynh</strong>, <strong>Kashif Nazir</strong>, and <strong>Chris Yoon</strong>
+            </div>
+            <div>
+                CS448B: Data Visualization Autumn 2018
+            </div>
+        </div>
+        <div class="title">The Evolution of General Education Requirements at Stanford University</div>
+        <div class="intro">
+            In 2013, Stanford introduced a new general education requirement called the Ways of Thinking/Ways of Doing that
+            replaced its predecessor, the GERs (General Education Requirements). The biggest change between the two systems
+            is the flexibility of courses that students could take. GERs focused on expanding the breadth of courses taken
+            by students while WAYS focuses more on developing a “well-rounded toolkit of intellectual skills”. We want to
+            explore how the new WAYS requirements affect students’ course planning and visualize the differences between
+            WAYS and GERs. Specifically, we want to explore whether WAYS really did increase the flexibility of course
+            choices for students and how the shift in requirements impacted enrollment for particular classes.
+        </div>
+
+        <!-- Flexibility -->
+        <header class="flexibility"><div>Flexibility</div></header>
+        <div class="intro flexibility">
+            We will first compare the flexibility between the GERs and WAYS system. For each requirement, we will
+            measure flexibility by looking at the total number of courses that will fulfill that particular requirement
+            and the departments that those courses belong to. We decided to use the courses from the 2013-2014 course
+            catalog because that was the first year the WAYS system was implemented. Upperclassmen can decide if they
+            want to stay on the GER system or switch to WAYS while freshmen will be required to fulfill WAYS
+            requirements.
+        </div>
+        <section class="flexibility">
+            <div class="text">
+                <div class="step" data-index="0">
+                    <h4>GER Bars</h4>
+                    Sed eget est ac ex congue pretium. Etiam interdum pellentesque orci sed aliquet. Mauris pulvinar
+                    molestie felis, vitae fringilla velit consectetur eu. Suspendisse ante tellus, laoreet ut nunc sit
+                    amet, cursus ultricies tortor. Praesent non posuere mi. In vehicula volutpat mattis. Mauris velit
+                    mauris, pellentesque sed erat efficitur, condimentum bibendum velit.
+                </div>
+                <div class="step" data-index="1">
+                    <h4>WAYS Bars</h4>
+                    Suspendisse non mattis metus. Nam sit amet nibh eleifend, maximus ipsum blandit, suscipit quam.
+                    Pellentesque nulla lectus, malesuada ac tincidunt ac, faucibus non nulla. Vestibulum mattis neque
+                    eget odio bibendum, sed blandit lectus elementum.
+                </div>
+                <div class="step" data-index="2">
+                    <h4>GER Pies</h4>
+                    First we show the departmental makeup of each GER. Hover over a slice of the pie chart to see the
+                    number of classes from a particular department.
+                </div>
+                <div class="step" data-index="3">
+                    <h4>WAYS Pies Depts</h4>
+                    Now we show the departmental makeup of each WAYS requirement. Again, you can hover over a slice of
+                    the pie chart to see the number of classes from a particular department. Compared to the GER pie
+                    charts above, you can see that courses that fulfill WAYS requirements come from a larger variety
+                    of departments.
+                </div>
+                <div class="step" data-index="4">
+                    <h4>WAYS Pies GERs</h4>
+                    You can also see the GER makeup of each WAYS requirement.
+                </div>
+                <div class="step" data-index="5">
+                    <h4>Comparison</h4>
+                    Here is a side by side comparison of GERs vs WAYS. Based on our criteria for flexibility, it looks
+                    like WAYS requirement did increase the flexibility of course choices for students.
+                </div>
+            </div>
+            <canvas class="graphic">
+
+            </canvas>
+        </section>
+    </article>
+</body>
+</html>
