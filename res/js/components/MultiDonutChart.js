@@ -1,5 +1,5 @@
-class MultiDonutChart {
-  constructor(container, opts = {}, datasets = []) {
+class MultiChart {
+  constructor(container, producer, opts = {}, datasets = []) {
     container.innerHTML = "";
 
     this.canvasGrid = document.createElement("div");
@@ -9,13 +9,13 @@ class MultiDonutChart {
     this.width = width;
     this.height = height;
 
-    const maxDonutsPerRow = opts.maxDonutsPerRow || 5;
+    const maxChartsPerRow = opts.maxChartsPerRow || 5;
     const margin = opts.margin || 15;
-    const donutDiameter = (this.width / (maxDonutsPerRow)) - margin;
-    const nRows = Math.ceil(datasets.length / maxDonutsPerRow);
+    const chartSize = (this.width / (maxChartsPerRow)) - margin;
+    const nRows = Math.ceil(datasets.length / maxChartsPerRow);
 
     const gridTemplate = [];
-    for (let i = 0; i < maxDonutsPerRow; i++) gridTemplate.push(`${donutDiameter}px`);
+    for (let i = 0; i < maxChartsPerRow; i++) gridTemplate.push(`${chartSize}px`);
     this.canvasGrid.style.gridTemplateColumns = gridTemplate.join(" ");
     this.canvasGrid.style.gridTemplateRows = gridTemplate.slice(0, nRows).join(" ");
     this.canvasGrid.style.gridRowGap = `${margin}px`;
@@ -27,18 +27,19 @@ class MultiDonutChart {
     this.charts = [];
     datasets.forEach(dataset => {
       const canvas = document.createElement("canvas");
-      canvas.style.width = canvas.width = donutDiameter;
-      canvas.style.height = canvas.height = donutDiameter;
+      canvas.style.width = canvas.width = chartSize;
+      canvas.style.height = canvas.height = chartSize;
       this.canvasGrid.appendChild(canvas);
       this.canvases.push(canvas);
 
-      const opts = {
-        chartOpts: {
-          title: { display: true, text: dataset.label }
-        }
-      };
+      const chartOpts = { onClick: opts.onClick };
+      chartOpts.chartOpts = Object.assign({}, opts.chartOpts || {}, {
+        title: { display: true, text: dataset.label },
+        responsive: false,
+        maintainAspectRatio: false
+      });
 
-      this.charts.push(new DonutChart(canvas, opts, dataset));
+      this.charts.push(producer(canvas, chartOpts, dataset));
     });
   }
 }

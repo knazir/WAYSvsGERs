@@ -15,7 +15,8 @@ class BarChart {
       },
       options: Object.assign({
         scales: {
-          yAxes: [{ ticks: { beginAtZero: true } }]
+          xAxes: [{ gridLines: { display: false } }],
+          yAxes: [{ ticks: { beginAtZero: true }, gridLines: { display: false } }]
         },
         legend: { display: false },
         maintainAspectRatio: false
@@ -24,9 +25,9 @@ class BarChart {
   }
 
   createColumnLabels() {
-    const columns = [];
-    Object.values(this.datasets).forEach(dataset => columns.push(...Object.keys(dataset)));
-    return columns;
+    const dataset = this.datasets[Object.keys(this.datasets)[0]];
+    if (!dataset) return [];
+    return Object.keys(dataset);
   }
 
   createGraphData() {

@@ -5,6 +5,7 @@ const GER_PIES = "GER_PIES";
 const WAYS_BARS = "WAYS_BARS";
 const WAYS_PIES_DEPTS = "WAYS_PIES_DEPTS";
 const WAYS_PIES_GERS = "WAYS_PIES_GERS";
+const COMPARISON = "COMPARISON";
 
 const GERS = {
   DB_HUM: "DB-Hum",
@@ -30,8 +31,7 @@ const WAYS = {
 };
 
 const gerPieChartOtherCutoff = 0.03;
-const graphicsOrder = [GER_BARS, WAYS_BARS, GER_PIES, WAYS_PIES_DEPTS, WAYS_PIES_GERS];
-let activeChart = null;
+const graphicsOrder = [GER_BARS, WAYS_BARS, GER_PIES, WAYS_PIES_DEPTS, WAYS_PIES_GERS, COMPARISON];
 
 // store results for each setup so we don't recompute
 const existingData = {};
@@ -117,9 +117,30 @@ function computeDepartmentMakeup(courses, system) {
   return { totalClassCount, reqClassCount, chartData, }
 }
 
+/*** Generic Pie Helpers ***/
+
+function setupMultiPie(chartData, courses) {
+  const multiOpts = {
+    onClick: (activePoint, dataset) => {
+      if (!activePoint) return;
+      clearGraphic();
+      setupGerPies(courses, dataset);
+    }
+  };
+
+  const producer = (canvas, chartOpts, dataset) => new DonutChart(canvas, chartOpts, dataset);
+  return new MultiChart(document.querySelector(".flexibility .graphic"), producer, multiOpts, chartData);
+}
+
+function setupGerPies(courses, focusedDataset = null) {
+  console.log(GER_PIES);
+  const { chartData } = computeDepartmentMakeup(courses, GERS);
+  focusedDataset ? setupFocusedPie(focusedDataset, courses) : setupMultiPie(chartData, courses);
+}
+
 /*** GER Bars ***/
 
-function setupGerBars(courses, visual) {
+function setupGerBars(courses) {
   console.log(GER_BARS);
   const counts = computeCounts(courses, GERS);
   const opts = {
@@ -133,7 +154,7 @@ function setupGerBars(courses, visual) {
 
 /*** WAYS Bars ***/
 
-function setupWaysBars(courses, visual) {
+function setupWaysBars(courses) {
   console.log(WAYS_BARS);
   const counts = computeCounts(courses, WAYS);
   const opts = {
@@ -149,18 +170,24 @@ function setupWaysBars(courses, visual) {
 
 /*** GER Pies ***/
 
-function setupGerPies(courses, visual) {
-  console.log(GER_PIES);
-  const { chartData } = computeDepartmentMakeup(courses, GERS);
-  const chart = new MultiDonutChart(document.querySelector(".flexibility .graphic"), {}, chartData);
+function setupFocusedPie(focusedDataset, courses) {
+  const focusedOpts = {
+    onClick: activePoint => {
+      if (activePoint) return;
+      clearGraphic();
+      setupGerPies(courses);
+    },
+    chartOpts: { title: { display: true, text: focusedDataset.label } }
+  };
+  return new DonutChart(document.querySelector(".flexibility .graphic canvas"), focusedOpts, focusedDataset);
 }
 
 /*** WAYS Pies Depts ***/
 
-function setupWaysPiesDepts(courses, visual) {
+function setupWaysPiesDepts(courses, focusedDataset = null) {
   console.log(WAYS_PIES_DEPTS);
   const { chartData } = computeDepartmentMakeup(courses, WAYS);
-  const chart = new MultiDonutChart(document.querySelector(".flexibility .graphic"), {}, chartData);
+  focusedDataset ? setupFocusedPie(focusedDataset, courses) : setupMultiPie(chartData, courses);
 }
 
 /*** WAYS Pies GERs ***/
@@ -193,31 +220,68 @@ function computeWaysGerMakeup(courses) {
   return { waysGerMakeup, chartData };
 }
 
-function setupWaysPiesGers(courses, visual) {
+function setupWaysPiesGers(courses, focusedDataset = null) {
   console.log(WAYS_PIES_GERS);
   const { waysGerMakeup, chartData } = computeWaysGerMakeup(courses);
-  const chart = new MultiDonutChart(document.querySelector(".flexibility .graphic"), {}, chartData);
+  focusedDataset ? setupFocusedPie(focusedDataset, courses) : setupMultiPie(chartData, courses);
 }
 
 /*** Comparison ***/
 
-function setupComparison(courses, visual) {
+function getAverageDepartmentCount(reqClassCount) {
+  let sum = 0;
+  Object.values(reqClassCount).forEach(n => sum += n);
+  return Math.floor(sum / Object.keys(reqClassCount).length);
+}
 
+function setupComparison(courses) {
+  const gerDepartmentMakeup = computeDepartmentMakeup(courses, GERS);
+  const waysDepartmentMakeup = computeDepartmentMakeup(courses, WAYS);
+  const waysGerMakeup = computeWaysGerMakeup(courses);
+
+  const opts = { maxChartsPerRow: 2 };
+
+  const chartData = [
+    {
+      label: "Average Departments Per Requirement",
+      data: {
+        GERs: getAverageDepartmentCount(gerDepartmentMakeup.reqClassCount),
+        WAYS: getAverageDepartmentCount(waysDepartmentMakeup.reqClassCount)
+      }
+    },
+    {
+      label: "Total Courses Offered",
+      data: {
+        GERs: gerDepartmentMakeup.totalClassCount,
+        WAYS: waysDepartmentMakeup.totalClassCount
+      }
+    }
+  ];
+
+  const producer = (canvas, chartOpts, dataset) => {
+    return new BarChart(canvas, chartOpts, { data: dataset.data });
+  };
+  const chart = new MultiChart(document.querySelector(".flexibility .graphic"), producer, opts, chartData);
 }
 
 /*** Main ***/
 
+function clearGraphic() {
+  const visual = d3.select(".flexibility .graphic");
+  visual.node().innerHTML = "<canvas></canvas>";
+}
+
 runMain(async function() {
   const courses = await fetchData();
-  const visual = d3.select(".flexibility .graphic");
   const setupGraphic = graphic => {
-    visual.node().innerHTML = "<canvas></canvas>";
+    clearGraphic();
     switch (graphic) {
-      case GER_BARS: return setupGerBars(courses, visual);
-      case GER_PIES: return setupGerPies(courses, visual);
-      case WAYS_BARS: return setupWaysBars(courses, visual);
-      case WAYS_PIES_DEPTS: return setupWaysPiesDepts(courses, visual);
-      case WAYS_PIES_GERS: return setupWaysPiesGers(courses, visual);
+      case GER_BARS: return setupGerBars(courses);
+      case GER_PIES: return setupGerPies(courses);
+      case WAYS_BARS: return setupWaysBars(courses);
+      case WAYS_PIES_DEPTS: return setupWaysPiesDepts(courses);
+      case WAYS_PIES_GERS: return setupWaysPiesGers(courses);
+      case COMPARISON: return setupComparison(courses);
       default: return;
     }
   };

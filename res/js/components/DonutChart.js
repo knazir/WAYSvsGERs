@@ -8,12 +8,17 @@ class DonutChart {
   }
 
   createGraph() {
-
     const options = {
       legend: { display: false },
-      responsive: false,
       maintainAspectRatio: false
     };
+
+    if (this.opts.onClick) {
+      this.canvas.onclick = e => {
+        const activePoint = this.chart.getElementsAtEvent(e)[0];
+        this.opts.onClick(activePoint, this.dataset, e);
+      }
+    }
 
     return new Chart(this.canvas.getContext("2d"), {
       type: "doughnut",
@@ -21,7 +26,7 @@ class DonutChart {
         labels: this.createLabels(),
         datasets: this.createGraphData()
       },
-      options: Object.assign(options, this.opts.chartOpts)
+      options: Object.assign(options, this.opts.chartOpts),
     });
   }
 
