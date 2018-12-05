@@ -77,10 +77,6 @@ header div {
     border-bottom: 1px solid lightgray;
 }
 
-section .text {
-    pointer-events: none;
-}
-
 section .graphic {
     position: sticky;
     top: 0;
@@ -104,6 +100,10 @@ section .graphic .canvas-grid {
 
 .step:not(:last-of-type) {
     margin-bottom: 600px;
+}
+
+.step:last-of-type {
+    margin-bottom: 50px;
 }
 
 /*** Flexibility ***/

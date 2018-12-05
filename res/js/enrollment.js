@@ -48,7 +48,7 @@
       filters: filters || [],
       chartOpts: { maintainAspectRatio: true },
       lineOpts: {
-        chartOpts: { title: { display: true, text: title } },
+        chartOpts: { title: { display: true, text: title, fontSize: 14 } },
         verticalLines: getWaysTransitionVerticalLine(),
         xAxisLabel: "Year",
         yAxisLabel: "Number of Students"

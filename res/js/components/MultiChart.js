@@ -34,7 +34,7 @@ class MultiChart {
 
       const chartOpts = { onClick: opts.onClick };
       chartOpts.chartOpts = Object.assign({}, opts.chartOpts || {}, {
-        title: { display: true, text: dataset.label },
+        title: { display: true, text: dataset.label, fontSize: opts.titleSize || 18 },
         responsive: false,
         maintainAspectRatio: false
       });

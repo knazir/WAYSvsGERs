@@ -128,7 +128,7 @@
     console.log(GER_BARS);
     const counts = computeCounts(courses, GERS);
     const opts = {
-      chartOpts: {title: {display: true, text: "Distribution of GERs (2012)"}},
+      chartOpts: { title: { display: true, text: "Distribution of GERs (2012)", fontSize: 18 } },
       sorted: true,
       reversed: true,
       yAxisLabel: "Number of Courses"
@@ -144,7 +144,7 @@
     const counts = computeCounts(courses, WAYS);
     const opts = {
       chartOpts: {
-        title: {display: true, text: "Distribution of WAYS Requirements (2017)"}
+        title: { display: true, text: "Distribution of WAYS Requirements (2017)", fontSize: 18 }
       },
       sorted: true,
       reversed: true,
@@ -182,7 +182,7 @@
       },
       colorIndex: colorIndex,
       chartOpts: {
-        title: { display: true, text: focusedDataset.label },
+        title: { display: true, text: focusedDataset.label, fontSize: 24 },
         elements: {
           center: {
             text: text.trim()
@@ -266,7 +266,7 @@
     const gerDepartmentMakeup = computeDepartmentMakeup(gerCourses, GERS);
     const waysDepartmentMakeup = computeDepartmentMakeup(waysCourses, WAYS);
 
-    const opts = { maxChartsPerRow: 3 };
+    const opts = { maxChartsPerRow: 3, titleSize: 14 };
 
     const percentage = n => {
       const p = (n * 100).toFixed(1);
