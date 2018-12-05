@@ -176,9 +176,17 @@
       else nSections++;
     });
 
+
     let text = `${nSections} `;
-    if (isDepartments) text += "Depts";
-    if (isRequirements) text += "GERs";
+    let pieceUnits = "";
+    if (isDepartments) {
+      text += "Depts";
+      pieceUnits = "courses";
+    }
+    if (isRequirements) {
+      text += "GERs";
+      pieceUnits = "departments";
+    }
 
     const focusedOpts = {
       onClick: (activePoint, _, chart) => {
@@ -187,6 +195,7 @@
         setupCallback(courses);
       },
       colorIndex: colorIndex,
+      pieceUnits: pieceUnits,
       chartOpts: {
         title: { display: true, text: focusedDataset.label, fontSize: 24 },
         elements: {
