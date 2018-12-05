@@ -81,7 +81,7 @@ section .graphic {
     position: sticky;
     top: 0;
     left: 0;
-    bottom: 10vh;
+    bottom: 5vh;
     display: flex;
     justify-content: center;
     padding: 0 2.5%;

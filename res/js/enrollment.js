@@ -81,7 +81,7 @@
     const opts = {
       defaultThreshold: defaultThreshold,
       defaultStartYear: 2012,
-      defaultEndYear: 2017,
+      defaultEndYear: 2014,
       system: system,
       filters: filters || [],
       chartOpts: { maintainAspectRatio: true },
