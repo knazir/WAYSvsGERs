@@ -42,7 +42,7 @@
   function getEnrollmentBreakdown(data, title, defaultThreshold, system, filters) {
     const opts = {
       defaultThreshold: defaultThreshold,
-      defaultStartYear: 2010,
+      defaultStartYear: 2012,
       defaultEndYear: 2017,
       system: system,
       filters: filters || [],
@@ -104,7 +104,7 @@
       course => hasGerButNoWays(course),
       course => courseOfferedThroughout(course, 2013, 2015)
     ];
-    getEnrollmentBreakdown(data, title, -50, GERS, filters);
+    getEnrollmentBreakdown(data, title, -30, GERS, filters);
   }
 
   /*** No GER Ways ***/
@@ -123,7 +123,7 @@
       course => hasWaysButNoGers(course),
       course => courseOfferedThroughout(course, 2013, 2015)
     ];
-    getEnrollmentBreakdown(data, title, 50, WAYS, filters);
+    getEnrollmentBreakdown(data, title, 30, WAYS, filters);
   }
 
   /*** Main ***/

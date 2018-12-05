@@ -4,7 +4,7 @@ class EnrollmentBreakdown {
     this.data = data;
     this.opts = opts;
     this.threshold = opts.defaultThreshold;
-    this.startYear = opts.defaultBaseYear || 2012;
+    this.startYear = opts.defaultStartYear || 2012;
     this.endYear = opts.defaultEndYear || 2013;
 
     container.innerHTML = "";
