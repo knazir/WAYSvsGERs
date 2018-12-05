@@ -20,7 +20,8 @@
     <!-- Components -->
     <script src="res/js/components/BarChart.js" defer></script>
     <script src="res/js/components/DonutChart.js" defer></script>
-    <script src="res/js/components/MultiDonutChart.js" defer></script>
+    <script src="res/js/components/LineChart.js" defer></script>
+    <script src="res/js/components/MultiChart.js" defer></script>
 
     <!-- Main App -->
     <script src="res/js/util.js" defer></script>
@@ -28,6 +29,7 @@
 
     <!-- Sections -->
     <script src="res/js/flexibility.js" defer></script>
+    <script src="res/js/enrollment.js" defer></script>
 </head>
 <body>
     <article>
@@ -89,13 +91,46 @@
                     of departments.
                 </div>
                 <div class="step" data-index="4">
-                    <h4>WAYS Pies GERs</h4>
-                    You can also see the GER makeup of each WAYS requirement.
-                </div>
-                <div class="step" data-index="5">
                     <h4>Comparison</h4>
                     Here is a side by side comparison of GERs vs WAYS. Based on our criteria for flexibility, it looks
                     like WAYS requirement did increase the flexibility of course choices for students.
+                </div>
+                <div class="step" data-index="5">
+                    <h4>WAYS Pies GERs</h4>
+                    You can also see the GER makeup of each WAYS requirement.
+                </div>
+            </div>
+            <div class="graphic">
+                <div>
+                    <canvas></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Enrollment -->
+        <header class="enrollment"><div>Enrollment</div></header>
+        <div class="intro enrollment">
+            We will first compare the flexibility between the GERs and WAYS system. For each requirement, we will
+            measure flexibility by looking at the total number of courses that will fulfill that particular requirement
+            and the departments that those courses belong to. We decided to use the courses from the 2013-2014 course
+            catalog because that was the first year the WAYS system was implemented. Upperclassmen can decide if they
+            want to stay on the GER system or switch to WAYS while freshmen will be required to fulfill WAYS
+            requirements.
+        </div>
+        <section class="enrollment">
+            <div class="text">
+                <div class="step" data-index="0">
+                    <h4>GERs -> No WAYS</h4>
+                    Sed eget est ac ex congue pretium. Etiam interdum pellentesque orci sed aliquet. Mauris pulvinar
+                    molestie felis, vitae fringilla velit consectetur eu. Suspendisse ante tellus, laoreet ut nunc sit
+                    amet, cursus ultricies tortor. Praesent non posuere mi. In vehicula volutpat mattis. Mauris velit
+                    mauris, pellentesque sed erat efficitur, condimentum bibendum velit.
+                </div>
+                <div class="step" data-index="1">
+                    <h4>No GERs -> WAYS</h4>
+                    Suspendisse non mattis metus. Nam sit amet nibh eleifend, maximus ipsum blandit, suscipit quam.
+                    Pellentesque nulla lectus, malesuada ac tincidunt ac, faucibus non nulla. Vestibulum mattis neque
+                    eget odio bibendum, sed blandit lectus elementum.
                 </div>
             </div>
             <div class="graphic">

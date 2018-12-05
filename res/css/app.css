@@ -102,10 +102,6 @@ section .graphic .canvas-grid {
     display: grid;
 }
 
-section .graphic .canvas-grid canvas {
-
-}
-
 .step:not(:last-of-type) {
     margin-bottom: 600px;
 }
@@ -122,4 +118,46 @@ header.flexibility {
 
 .flexibility.intro {
     background-color: #f9f6ef;
+}
+
+/*** Enrollment ***/
+
+.enrollment {
+    padding: 40px 5%;
+}
+
+header.enrollment {
+    margin-top: 150px;
+    background-color: #f9f6ef;
+}
+
+.enrollment.intro {
+    background-color: #f9f6ef;
+}
+
+.enrollment-breakdown {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+}
+
+.enrollment-breakdown:first-child {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+.enrollment-breakdown:nth-child(2) {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.enrollment-breakdown:nth-child(3) {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
 }
