@@ -6,7 +6,7 @@
 
   const enrollmentGraphicsOrder = [GER_NO_WAYS, NO_GER_WAYS];
 
-  const storedData = { GER_NO_WAYS: null, NO_GER_WAYS: null };
+  let storedData = null;
 
   /*** Data Processing ***/
 
@@ -69,7 +69,7 @@
 
   function getWaysTransitionVerticalLine() {
     return {
-      4: {
+      3: {
         text: "WAYS Introduced",
         textAlign: "left",
         labelFill: "black",
@@ -98,8 +98,8 @@
   function setupGerNoWays(coursesByYear) {
     console.log(GER_NO_WAYS);
     let data;
-    if (storedData.GER_NO_WAYS) data = storedData.GER_NO_WAYS;
-    storedData.GER_NO_WAYS = data = computeEnrollmentOverTime(coursesByYear);
+    if (storedData) data = storedData;
+    storedData = data = computeEnrollmentOverTime(coursesByYear);
     const title = "Enrollment Changes for Classes Satisfying GERs but no WAYS Requirements";
     const filters =[
       course => hasGerButNoWays(course),
@@ -146,8 +146,8 @@
   function setupNoGerWays(coursesByYear) {
     console.log(NO_GER_WAYS);
     let data;
-    if (storedData.NO_GER_WAYS) data = storedData.GER_NO_WAYS;
-    storedData.NO_GER_WAYS = data = computeEnrollmentOverTime(coursesByYear);
+    if (storedData) data = storedData;
+    storedData = data = computeEnrollmentOverTime(coursesByYear);
     const title = "Enrollment Changes for Classes NOT Satisfying GERs but Gaining WAYS Requirements";
     const filters =[
       course => hasWaysButNoGers(course),
@@ -219,7 +219,6 @@
       }
     });
 
-    setupNoGerWays(coursesByYear);
     setupGerNoWays(coursesByYear);
   });
 })();
