@@ -192,3 +192,7 @@ header.explore {
 .explore.intro {
     background-color: #f9f6ef;
 }
+
+.explore .graphic {
+    position: static;
+}
