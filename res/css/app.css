@@ -2,7 +2,7 @@
 
 body {
     margin: 0;
-    padding: 0 0 25px 0;
+    padding: 0;
     width: 100vw;
 
     font-family: "Lato", sans-serif;
@@ -14,6 +14,16 @@ article {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+footer {
+    padding: 2px 0;
+    background-color: #B1040E;
+    color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
 }
 
 /*** Intro ***/
