@@ -74,10 +74,10 @@ class EnrollmentBreakdown {
 
     const percentageOfClassesShown = ((filteredData.length / startingData.length) * 100).toFixed(1);
     this.percentageText.innerHTML = `
-      <h3>${filteredData.length} classes (${percentageOfClassesShown}%)</h3>
+      <h3>${filteredData.length} ${filteredData.length === 1 ? "class" : "classes"} (${percentageOfClassesShown}%)</h3>
       <div>
-        had their enrollment ${this.threshold < 0 ? "decrease" : "increase"} by at least 
-        <strong>${Math.abs(this.threshold)}%</strong>
+        had ${filteredData.length === 1 ? "its" : "their"} enrollment ${this.threshold < 0 ? "decrease" : "increase"} 
+        by at least <strong>${Math.abs(this.threshold)}%</strong>
         from <strong>${this.startYear}</strong> - <strong>${this.endYear}</strong>
       </div>
     `;

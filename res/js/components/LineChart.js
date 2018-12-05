@@ -1,5 +1,6 @@
 const verticalLinePlugin = {
   getLinePosition: function (chart, pointIndex) {
+    if (chart.data.datasets.length === 0) return Number.MAX_SAFE_INTEGER;
     const meta = chart.getDatasetMeta(0); // first dataset is used to discover X coordinate of a point
     const data = meta.data;
     return data[pointIndex]._model.x;
@@ -7,6 +8,7 @@ const verticalLinePlugin = {
 
   renderVerticalLine: function (chartInstance, pointIndex, style) {
     const lineLeftOffset = this.getLinePosition(chartInstance, pointIndex);
+    if (lineLeftOffset === Number.MIN_SAFE_INTEGER) return;
     const scale = chartInstance.scales['y-axis-0'];
     const context = chartInstance.chart.ctx;
 

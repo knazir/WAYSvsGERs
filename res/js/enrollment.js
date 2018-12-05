@@ -105,7 +105,36 @@
       course => hasGerButNoWays(course),
       course => courseOfferedThroughout(course, 2013, 2015)
     ];
-    getEnrollmentBreakdown(data, title, -30, GERS, filters);
+
+    const updateThreshold = e => {
+      const threshold = Number(e.target.value);
+      if (threshold !== chart.threshold) chart.setThreshold(threshold);
+    };
+
+    const thresholdInput = document.querySelector("#inEnBr0");
+    thresholdInput.addEventListener("keyup", updateThreshold);
+    thresholdInput.addEventListener("change", updateThreshold);
+
+    const startYearSelect = document.querySelector("#sel0EnBr0");
+    const endYearSelect = document.querySelector("#sel1EnBr0");
+
+    startYearSelect.addEventListener("change", e => {
+      const startYear = Number(e.target.value);
+      if (startYear !== chart.startYear) chart.setStartYear(startYear);
+      Array.from(endYearSelect.querySelectorAll("option")).forEach(option => {
+        option.disabled = Number(option.textContent) <= chart.startYear;
+      });
+    });
+
+    document.querySelector("#sel1EnBr0").addEventListener("change", e => {
+      const endYear = Number(e.target.value);
+      if (endYear !== chart.endYear) chart.setEndYear(endYear);
+      Array.from(startYearSelect.querySelectorAll("option")).forEach(option => {
+        option.disabled = Number(option.textContent) >= chart.endYear;
+      });
+    });
+
+    const chart = getEnrollmentBreakdown(data, title, -30, GERS, filters);
   }
 
   /*** No GER Ways ***/
@@ -124,7 +153,36 @@
       course => hasWaysButNoGers(course),
       course => courseOfferedThroughout(course, 2013, 2015)
     ];
-    getEnrollmentBreakdown(data, title, 30, WAYS, filters);
+
+    const updateThreshold = e => {
+      const threshold = Number(e.target.value);
+      if (threshold !== chart.threshold) chart.setThreshold(threshold);
+    };
+
+    const thresholdInput = document.querySelector("#inEnBr1");
+    thresholdInput.addEventListener("keyup", updateThreshold);
+    thresholdInput.addEventListener("change", updateThreshold);
+
+    const startYearSelect = document.querySelector("#sel0EnBr1");
+    const endYearSelect = document.querySelector("#sel1EnBr1");
+
+    startYearSelect.addEventListener("change", e => {
+      const startYear = Number(e.target.value);
+      if (startYear !== chart.startYear) chart.setStartYear(startYear);
+      Array.from(endYearSelect.querySelectorAll("option")).forEach(option => {
+        option.disabled = Number(option.textContent) <= chart.startYear;
+      });
+    });
+
+    document.querySelector("#sel1EnBr1").addEventListener("change", e => {
+      const endYear = Number(e.target.value);
+      if (endYear !== chart.endYear) chart.setEndYear(endYear);
+      Array.from(startYearSelect.querySelectorAll("option")).forEach(option => {
+        option.disabled = Number(option.textContent) >= chart.endYear;
+      });
+    });
+
+    const chart = getEnrollmentBreakdown(data, title, 30, WAYS, filters);
   }
 
   /*** Main ***/
