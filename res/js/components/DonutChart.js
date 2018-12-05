@@ -34,7 +34,29 @@ class DonutChart {
   createGraph() {
     const options = {
       legend: { display: false },
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      tooltips: {
+        callbacks: {
+          title: (tooltipItem, data) => {
+            return data["labels"][tooltipItem[0]["index"]];
+          },
+
+          label: (tooltipItem, data) => {
+            const dataset = data["datasets"][0];
+            const piece = dataset["data"][tooltipItem["index"]];
+            let total = 0;
+            dataset.data.forEach(n => total += n);
+            const percent = `(${Math.round((piece / total) * 100)}%)`;
+            return `${data["datasets"][0]["data"][tooltipItem["index"]]} ${this.opts.pieceUnits || ""} ${percent}`;
+          }
+        },
+        // backgroundColor: "#FFF",
+        // titleFontSize: 16,
+        // titleFontColor: "#0066ff",
+        // bodyFontColor: "#000",
+        // bodyFontSize: 14,
+        // displayColors: true
+      }
     };
 
     if (this.opts.onMouseMove) {

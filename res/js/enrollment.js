@@ -27,7 +27,7 @@
         let yearEnrollmentTotal = 0;
         const quartersOffered = Object.keys(course.enrollment).filter(term => course.enrollment[term]);
         quartersOffered.forEach(term => yearEnrollmentTotal += course.enrollment[term]);
-        const yearEnrollmentAverage = Math.floor(yearEnrollmentTotal / quartersOffered.length);
+        const yearEnrollmentAverage = Math.round(yearEnrollmentTotal / quartersOffered.length);
         const courseName = `${course.dept}${course.number}`;
         course.enrollmentByYear = {};
         if (!courses[courseName]) courses[courseName] = course;
@@ -60,6 +60,7 @@
             text: `Breakdown of ${system === GERS ? "GERs" : "WAYS"} for Courses Shown`
           }
         },
+        pieceUnits: "courses",
         colorIndex: 12
       }
     };

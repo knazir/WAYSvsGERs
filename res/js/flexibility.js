@@ -59,7 +59,7 @@
       const other = { name: "OTHER", value: 0, breakdown: {} };
 
       const data = Object.entries(deptCourses).map(([dept, courseSet]) => {
-        if (courseSet.size >= Math.floor(reqTotal * pieChartOtherCutoff)) return { name: dept, value: courseSet.size };
+        if (courseSet.size >= Math.round(reqTotal * pieChartOtherCutoff)) return { name: dept, value: courseSet.size };
         other.value += courseSet.size;
         other.breakdown[dept] = courseSet.size;
         return null;
@@ -101,8 +101,14 @@
       });
 
       let text = `${nSections} `;
-      if (isDepartments) text += "Depts";
-      if (isRequirements) text += "GERs";
+      if (isDepartments) {
+        text += "Depts";
+        chartOpts.pieceUnits = "courses";
+      }
+      if (isRequirements) {
+        text += "GERs";
+        chartOpts.pieceUnits = "departments";
+      }
 
       chartOpts.chartOpts.elements = {
         center: {
@@ -259,7 +265,7 @@
   function getAverageCourseCount(reqClassCount) {
     let sum = 0;
     Object.values(reqClassCount).forEach(n => sum += n);
-    return Math.floor(sum / Object.keys(reqClassCount).length);
+    return Math.round(sum / Object.keys(reqClassCount).length);
   }
 
   function setupComparison(gerCourses, waysCourses) {
