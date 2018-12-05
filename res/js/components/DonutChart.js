@@ -1,10 +1,34 @@
+function clearText(chart) {
+
+}
+
+function drawText(chart, text) {
+  const width = chart.chart.width;
+  const height = chart.chart.height;
+  const ctx = chart.chart.ctx;
+  ctx.restore();
+  const fontSize = (height / 180).toFixed(2);
+  ctx.font = fontSize + "em sans-serif";
+  ctx.textBaseline = "middle";
+  const textX = Math.round((width - ctx.measureText(text).width) / 2);
+  const textY = (height + 35) / 2;
+  ctx.fillText(text, textX, textY);
+  ctx.save();
+}
+
+Chart.pluginService.register({
+  beforeDraw: function (chart) {
+    if (!chart.config.options.elements.center) return;
+    drawText(chart, chart.config.options.elements.center.text);
+  }
+});
+
 class DonutChart {
   constructor(canvas, opts = {}, dataset = { label: "", data: [] }) {
     this.canvas = canvas;
     this.dataset = dataset;
     this.opts = opts;
     this.chart = this.createGraph();
-    window.chart = this.chart;
   }
 
   createGraph() {
@@ -13,10 +37,17 @@ class DonutChart {
       maintainAspectRatio: false
     };
 
+    if (this.opts.onMouseMove) {
+      this.canvas.onmousemove = e => {
+        const activePoint = this.chart.getElementsAtEvent(e)[0];
+        this.opts.onMouseMove(activePoint, this.dataset, this, e);
+      };
+    }
+
     if (this.opts.onClick) {
       this.canvas.onclick = e => {
         const activePoint = this.chart.getElementsAtEvent(e)[0];
-        this.opts.onClick(activePoint, this.dataset, e);
+        this.opts.onClick(activePoint, this.dataset, this, e);
       }
     }
 
@@ -37,7 +68,8 @@ class DonutChart {
   createGraphData() {
     return [{
       label: this.opts.seriesName || "",
-      data: this.dataset.data.map(d => d.value)
+      data: this.dataset.data.map(d => d.value),
+      backgroundColor: getColors(this.opts.colorIndex)
     }];
   }
 
@@ -57,8 +89,6 @@ class DonutChart {
   }
 
   update() {
-    this.chart.data.labels = this.createLabels();
-    this.chart.data.datasets = this.createGraphData();
     this.chart.update();
   }
 }

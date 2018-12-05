@@ -7,20 +7,32 @@ class BarChart {
   }
 
   createGraph() {
+    const options = Object.assign({
+      scales: {
+        xAxes: [{ gridLines: { display: false } }],
+        yAxes: [{ ticks: { beginAtZero: true }, gridLines: { display: false } }]
+      },
+      legend: { display: false },
+      maintainAspectRatio: false
+    }, this.opts.chartOpts || {});
+
+    if (this.opts.xAxisLabel) options.scales.xAxes[0].scaleLabel = {
+      display: true,
+      labelString: this.opts.xAxisLabel
+    };
+
+    if (this.opts.yAxisLabel) options.scales.yAxes[0].scaleLabel = {
+      display: true,
+      labelString: this.opts.yAxisLabel
+    };
+
     return new Chart(this.canvas.getContext("2d"), {
       type: "bar",
       data: {
         labels: this.createColumnLabels(),
         datasets: this.createGraphData()
       },
-      options: Object.assign({
-        scales: {
-          xAxes: [{ gridLines: { display: false } }],
-          yAxes: [{ ticks: { beginAtZero: true }, gridLines: { display: false } }]
-        },
-        legend: { display: false },
-        maintainAspectRatio: false
-      }, this.opts.chartOpts || {})
+      options
     });
   }
 
@@ -31,10 +43,13 @@ class BarChart {
   }
 
   createGraphData() {
-    return Object.entries(this.datasets).map(([label, dataset]) => {
+    return Object.entries(this.datasets).map(([label, dataset], i) => {
       let data = Object.values(dataset);
       if (this.opts.sorted) data = data.sort((a, b) => this.opts.reversed ? b - a : a - b);
-      return { label, data };
+      let res = { label, data };
+      res.backgroundColor = getColors(11);
+      if (this.opts.datasetOpts) res = Object.assign(res, this.opts.datasetOpts[i] || {});
+      return res;
     });
   }
 

@@ -8,30 +8,7 @@
   const WAYS_PIES_GERS = "WAYS_PIES_GERS";
   const COMPARISON = "COMPARISON";
 
-  const GERS = {
-    DB_HUM: "DB-Hum",
-    DB_MATH: "DB-Math",
-    DB_SOC_SCI: "DB-SocSci",
-    DB_ENGR_APP_SCI: "DB-EngrAppSci",
-    DB_NAT_SCI: "DB-NatSci",
-    EC_ETHIC_REAS: "EC-EthicReas",
-    EC_GLOBAL_COM: "EC-GlobalCom",
-    EC_AMER_CUL: "EC-AmerCul",
-    EC_GENDER: "EC-Gender"
-  };
-
-  const WAYS = {
-    AII: "A-II",
-    AQR: "AQR",
-    CE: "CE",
-    ED: "ED",
-    ER: "ER",
-    FR: "FR",
-    SI: "SI",
-    SMA: "SMA"
-  };
-
-  const pieChartOtherCutoff = 0.03;
+  const pieChartOtherCutoff = 0.035;
   const flexibilityGraphicsOrder = [GER_BARS, WAYS_BARS, GER_PIES, WAYS_PIES_DEPTS, COMPARISON, WAYS_PIES_GERS];
 
   /*** Data Processing ***/
@@ -98,23 +75,51 @@
 
   /*** Generic Pie Helpers ***/
 
-  function setupMultiPie(chartData, courses) {
+  function setupMultiPie(chartData, courses, setupCallback, colorIndex) {
     const multiOpts = {
       onClick: (activePoint, dataset) => {
-        if (!activePoint) return;
+        // if (!activePoint) return;
         clearGraphic();
-        setupGerPies(courses, dataset);
+        setupCallback(courses, dataset);
       }
     };
 
-    const producer = (canvas, chartOpts, dataset) => new DonutChart(canvas, chartOpts, dataset);
+    const producer = (canvas, chartOpts, dataset) => {
+      chartOpts.colorIndex = colorIndex;
+      if (!chartOpts.chartOpts) chartOpts.chartOpts = {};
+      let nSections = 0;
+      let isDepartments = false;
+      let isRequirements = false;
+      dataset.data.forEach(({ name, value, breakdown }) => {
+        if (name === "OTHER") {
+          nSections += Object.values(breakdown).length;
+          isDepartments = true;
+        } else if (name === "NEW") {
+          isRequirements = true;
+        }
+        else nSections++;
+      });
+
+      let text = `${nSections} `;
+      if (isDepartments) text += "Depts";
+      if (isRequirements) text += "GERs";
+
+      chartOpts.chartOpts.elements = {
+        center: {
+          text: text.trim()
+        }
+      };
+      return new DonutChart(canvas, chartOpts, dataset);
+    };
     return new MultiChart(document.querySelector(".flexibility .graphic"), producer, multiOpts, chartData);
   }
 
   function setupGerPies(courses, focusedDataset = null) {
     console.log(GER_PIES);
     const {chartData} = computeDepartmentMakeup(courses, GERS);
-    focusedDataset ? setupFocusedPie(focusedDataset, courses) : setupMultiPie(chartData, courses);
+    focusedDataset ?
+      setupFocusedPie(focusedDataset, courses, setupGerPies) :
+      setupMultiPie(chartData, courses, setupGerPies);
   }
 
   /*** GER Bars ***/
@@ -123,15 +128,13 @@
     console.log(GER_BARS);
     const counts = computeCounts(courses, GERS);
     const opts = {
-      chartOpts: {title: {display: true, text: "Distribution of GERs"}},
+      chartOpts: {title: {display: true, text: "Distribution of GERs (2012)"}},
       sorted: true,
-      reversed: true
+      reversed: true,
+      yAxisLabel: "Number of Courses"
     };
     const chart = new BarChart(document.querySelector(".flexibility .graphic canvas"), opts);
     chart.addData("GERs", counts);
-
-    window.chart = chart;
-    window.counts = counts;
   }
 
   /*** WAYS Bars ***/
@@ -141,10 +144,11 @@
     const counts = computeCounts(courses, WAYS);
     const opts = {
       chartOpts: {
-        title: {display: true, text: "Distribution of WAYS Requirements"}
+        title: {display: true, text: "Distribution of WAYS Requirements (2017)"}
       },
       sorted: true,
-      reversed: true
+      reversed: true,
+      yAxisLabel: "Number of Courses"
     };
     const chart = new BarChart(document.querySelector(".flexibility .graphic canvas"), opts);
     chart.addData("WAYS", counts);
@@ -152,14 +156,39 @@
 
   /*** GER Pies ***/
 
-  function setupFocusedPie(focusedDataset, courses) {
+  function setupFocusedPie(focusedDataset, courses, setupCallback, colorIndex) {
+    let nSections = 0;
+    let isDepartments = false;
+    let isRequirements = false;
+    focusedDataset.data.forEach(({ name, value, breakdown}) => {
+      if (name === "OTHER") {
+        isDepartments = true;
+        nSections += Object.keys(breakdown).length;
+      } else if (name === "NEW") {
+        isRequirements = true;
+      }
+      else nSections++;
+    });
+
+    let text = `${nSections} `;
+    if (isDepartments) text += "Depts";
+    if (isRequirements) text += "GERs";
+
     const focusedOpts = {
-      onClick: activePoint => {
+      onClick: (activePoint, _, chart) => {
         if (activePoint) return;
         clearGraphic();
-        setupGerPies(courses);
+        setupCallback(courses);
       },
-      chartOpts: {title: {display: true, text: focusedDataset.label}}
+      colorIndex: colorIndex,
+      chartOpts: {
+        title: { display: true, text: focusedDataset.label },
+        elements: {
+          center: {
+            text: text.trim()
+          }
+        }
+      }
     };
     return new DonutChart(document.querySelector(".flexibility .graphic canvas"), focusedOpts, focusedDataset);
   }
@@ -169,7 +198,9 @@
   function setupWaysPiesDepts(courses, focusedDataset = null) {
     console.log(WAYS_PIES_DEPTS);
     const {chartData} = computeDepartmentMakeup(courses, WAYS);
-    focusedDataset ? setupFocusedPie(focusedDataset, courses) : setupMultiPie(chartData, courses);
+    focusedDataset ?
+      setupFocusedPie(focusedDataset, courses, setupWaysPiesDepts) :
+      setupMultiPie(chartData, courses, setupWaysPiesDepts);
   }
 
   /*** WAYS Pies GERs ***/
@@ -205,7 +236,9 @@
   function setupWaysPiesGers(courses, focusedDataset = null) {
     console.log(WAYS_PIES_GERS);
     const {waysGerMakeup, chartData} = computeWaysGerMakeup(courses);
-    focusedDataset ? setupFocusedPie(focusedDataset, courses) : setupMultiPie(chartData, courses);
+    focusedDataset ?
+      setupFocusedPie(focusedDataset, courses, setupWaysPiesGers, 14) :
+      setupMultiPie(chartData, courses, setupWaysPiesGers, 14);
   }
 
   /*** Comparison ***/
@@ -273,7 +306,9 @@
       }
     ];
 
-    const producer = (canvas, opts, dataset) => {
+    const producer = (canvas, opts, dataset, datasetIndex) => {
+      opts.datasetOpts = [{ backgroundColor: ["#118888", "#665577"] }];
+
       return new BarChart(canvas, opts, { data: dataset.data });
     };
 
@@ -320,7 +355,6 @@
         let index = Number(d3.select(element).attr("data-index")) - 1;
         setupGraphic(flexibilityGraphicsOrder[index]);
       }
-    })
-
+    });
   });
 })();

@@ -49,6 +49,25 @@ class LineChart {
   }
 
   createGraph() {
+    const options = Object.assign({
+      scales: {
+        xAxes: [{ gridLines: { display: false } }],
+        yAxes: [{ ticks: { beginAtZero: true }, gridLines: { display: false } }]
+      },
+      legend: { display: false },
+      maintainAspectRatio: false
+    }, this.opts.chartOpts || {});
+
+    if (this.opts.xAxisLabel) options.scales.xAxes[0].scaleLabel = {
+      display: true,
+      labelString: this.opts.xAxisLabel
+    };
+
+    if (this.opts.yAxisLabel) options.scales.yAxes[0].scaleLabel = {
+      display: true,
+      labelString: this.opts.yAxisLabel
+    };
+
     return new Chart(this.canvas.getContext("2d"), {
       type: "line",
       data: {
@@ -56,14 +75,7 @@ class LineChart {
         datasets: this.createGraphData()
       },
       verticalLines: this.opts.verticalLines || null,
-      options: Object.assign({
-        scales: {
-          xAxes: [{ gridLines: { display: false } }],
-          yAxes: [{ ticks: { beginAtZero: true }, gridLines: { display: false } }]
-        },
-        legend: { display: false },
-        maintainAspectRatio: false
-      }, this.opts.chartOpts || {})
+      options: options
     });
   }
 

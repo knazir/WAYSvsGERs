@@ -137,27 +137,58 @@ header.enrollment {
 
 .enrollment-breakdown {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: calc(70% - 25px) calc(30% - 25px);
+    grid-template-rows: calc(25% - 25px) calc(75% - 25px);
+    grid-column-gap: 25px;
+    grid-row-gap: 25px;
 }
 
-.enrollment-breakdown:first-child {
+.enrollment-breakdown > * {
+    width: 100%;
+    height: 100%;
+}
+
+.enrollment-breakdown > *:first-child {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
     grid-row-end: 3;
 }
 
-.enrollment-breakdown:nth-child(2) {
+.enrollment-breakdown > *:nth-child(2) {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 1;
     grid-row-end: 2;
+
+    font-size: 14px;
+    text-align: center;
 }
 
-.enrollment-breakdown:nth-child(3) {
+.enrollment-breakdown > *:nth-child(2) h3 {
+    font-size: 22px;
+}
+
+.enrollment-breakdown > *:nth-child(3) {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 3;
+}
+
+/*** Explore ***/
+
+.explore {
+    padding: 40px 5%;
+}
+
+header.explore {
+    margin-top: 150px;
+    background-color: #f9f6ef;
+}
+
+.explore.intro {
+    background-color: #f9f6ef;
 }

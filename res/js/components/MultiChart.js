@@ -25,7 +25,7 @@ class MultiChart {
 
     this.canvases = [];
     this.charts = [];
-    datasets.forEach(dataset => {
+    datasets.forEach((dataset, datasetIndex) => {
       const canvas = document.createElement("canvas");
       canvas.style.width = canvas.width = chartSize;
       canvas.style.height = canvas.height = chartSize;
@@ -39,7 +39,7 @@ class MultiChart {
         maintainAspectRatio: false
       });
 
-      this.charts.push(producer(canvas, chartOpts, dataset));
+      this.charts.push(producer(canvas, chartOpts, dataset, datasetIndex));
     });
   }
 }

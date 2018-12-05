@@ -22,6 +22,7 @@
     <script src="res/js/components/DonutChart.js" defer></script>
     <script src="res/js/components/LineChart.js" defer></script>
     <script src="res/js/components/MultiChart.js" defer></script>
+    <script src="res/js/components/EnrollmentBreakdown.js" defer></script>
 
     <!-- Main App -->
     <script src="res/js/util.js" defer></script>
@@ -125,9 +126,41 @@
                     molestie felis, vitae fringilla velit consectetur eu. Suspendisse ante tellus, laoreet ut nunc sit
                     amet, cursus ultricies tortor. Praesent non posuere mi. In vehicula volutpat mattis. Mauris velit
                     mauris, pellentesque sed erat efficitur, condimentum bibendum velit.
+
+                    <!--<div class="enrollment-select-sentence">-->
+                        <!--<label for="inEnBr0">Display classes where enrollment changed by</label>-->
+                        <!--<input name="inEnBr0" id="inEnBr0" type="text">% from-->
+                        <!--<select>-->
+                            <!--<option>2010</option>-->
+                            <!--<option>2011</option>-->
+                            <!--<option>2012</option>-->
+                            <!--<option>2013</option>-->
+                            <!--<option>2014</option>-->
+                            <!--<option>2015</option>-->
+                            <!--<option>2016</option>-->
+                            <!--<option>2017</option>-->
+                        <!--</select>-->
+                        <!--to-->
+                        <!--<select>-->
+                            <!--<option>2010</option>-->
+                            <!--<option>2011</option>-->
+                            <!--<option>2012</option>-->
+                            <!--<option>2013</option>-->
+                            <!--<option>2014</option>-->
+                            <!--<option>2015</option>-->
+                            <!--<option>2016</option>-->
+                            <!--<option>2017</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
                 </div>
                 <div class="step" data-index="1">
                     <h4>No GERs -> WAYS</h4>
+                    Suspendisse non mattis metus. Nam sit amet nibh eleifend, maximus ipsum blandit, suscipit quam.
+                    Pellentesque nulla lectus, malesuada ac tincidunt ac, faucibus non nulla. Vestibulum mattis neque
+                    eget odio bibendum, sed blandit lectus elementum.
+                </div>
+                <div class="step" data-index="2">
+                    <h4>GERs and WAYS</h4>
                     Suspendisse non mattis metus. Nam sit amet nibh eleifend, maximus ipsum blandit, suscipit quam.
                     Pellentesque nulla lectus, malesuada ac tincidunt ac, faucibus non nulla. Vestibulum mattis neque
                     eget odio bibendum, sed blandit lectus elementum.
@@ -137,6 +170,24 @@
                 <div>
                     <canvas></canvas>
                 </div>
+            </div>
+        </section>
+
+        <!-- Explore -->
+        <header class="explore"><div>Explore</div></header>
+        <div class="intro explore">
+            We will first compare the flexibility between the GERs and WAYS system. For each requirement, we will
+            measure flexibility by looking at the total number of courses that will fulfill that particular requirement
+            and the departments that those courses belong to. We decided to use the courses from the 2013-2014 course
+            catalog because that was the first year the WAYS system was implemented. Upperclassmen can decide if they
+            want to stay on the GER system or switch to WAYS while freshmen will be required to fulfill WAYS
+            requirements.
+        </div>
+        <section class="explore">
+            <div class="text">
+            </div>
+            <div class="graphic">
+                <canvas></canvas>
             </div>
         </section>
     </article>
