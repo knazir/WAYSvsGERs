@@ -5,7 +5,7 @@ body {
     padding: 0 0 25px 0;
     width: 100vw;
 
-    font-family: "Open Sans", sans-serif;
+    font-family: "Lato", sans-serif;
     line-height: 2;
 }
 
@@ -37,7 +37,9 @@ article {
     height: calc(100vh - 40px); /* subtract credits height */
     padding: 0 10%;
 
-    background-color: #f8f9f9;
+    background-color: #B1040E;
+    color: white;
+    font-family: "Roboto", sans-serif;
 
     font-size: 48px;
     font-weight: bold;
@@ -67,6 +69,7 @@ header {
     display: flex;
     justify-content: center;
     padding: 20px 0;
+    font-family: "Roboto", sans-serif;
     font-size: 48px;
     font-weight: bold;
     text-align: center;
@@ -106,6 +109,12 @@ section .graphic .canvas-grid {
     margin-bottom: 50px;
 }
 
+.step h4 {
+    color: #B1040E;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+}
+
 /*** Flexibility ***/
 
 .flexibility {
@@ -113,11 +122,11 @@ section .graphic .canvas-grid {
 }
 
 header.flexibility {
-    background-color: #f9f6ef;
+    background-color: #dad7cb;
 }
 
 .flexibility.intro {
-    background-color: #f9f6ef;
+    background-color: #dad7cb;
 }
 
 /*** Enrollment ***/
@@ -128,11 +137,11 @@ header.flexibility {
 
 header.enrollment {
     margin-top: 150px;
-    background-color: #f9f6ef;
+    background-color: #dad7cb;
 }
 
 .enrollment.intro {
-    background-color: #f9f6ef;
+    background-color: #dad7cb;
 }
 
 .enrollment-breakdown {
