@@ -21,8 +21,6 @@ class BarChart {
     this.width = width;
     this.height = height;
 
-    console.log(width, height);
-
     const columns = Object.keys(data);
     const counts = Object.values(data);
     const selection = columns[0];

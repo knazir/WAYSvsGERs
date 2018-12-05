@@ -171,11 +171,17 @@ header.enrollment {
     font-size: 22px;
 }
 
+.enrollment-breakdown > *:nth-child(2) h4 {
+    font-size: 22px;
+}
+
 .enrollment-breakdown > *:nth-child(3) {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 3;
+
+    font-size: 12px;
 }
 
 .enrollment-select-sentence {
@@ -199,98 +205,16 @@ header.enrollment {
     text-align: right;
 }
 
-/*** Explore ***/
-
-.explore {
-    padding: 40px 5%;
+.enrollment-select-sentence button {
+    background-color: lightgray;
+    border: none;
+    box-shadow: none;
+    padding: 0 5px;
+    margin: 0;
+    margin-left: 50px;
+    cursor: pointer;
 }
 
-header.explore {
-    margin-top: 150px;
-    background-color: #f9f6ef;
-}
-
-.explore.intro {
-    background-color: #f9f6ef;
-}
-
-.explore .graphic {
-    position: static;
-    margin-top: 50px;
-    margin-left: 2.5%;
-    height: 80vh;
-    width: 80vw;
-    border: 1px solid lightgray;
-}
-
-.explore .graphic svg {
-    width: 100%;
-    height: 100%;
-}
-
-.links {
-    stroke: rgba(0,0,0,0.4);
-}
-
-.toggle {
-    position: relative;
-    display: inline-block;
-    width: 100px;
-    height: 30px;
-}
-
-.toggle input {
-    display:none;
-}
-
-.slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #db7f67;
-    -webkit-transition: 100ms;
-    transition: 100ms;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 5px;
-    bottom: 5px;
-    background-color: white;
-    -webkit-transition: 100ms;
-    transition: 100ms;
-}
-
-input:checked + .slider {
-    background-color: #1b998b;
-}
-
-input:checked + .slider:before {
-    -webkit-transform: translateX(70px);
-    -ms-transform: translateX(70px);
-    transform: translateX(70px);
-}
-
-#tooltip {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    min-width: 60px;
-    min-height: 30px;
-    font: 12px sans-serif;
-    background: lightsteelblue;
-    border: 0;
-    border-radius: 8px;
-    pointer-events: none;
-}
-
-#tooltip strong {
-    margin-right: 3px;
+.enrollment-select-sentence button:hover {
+    background-color: #d0dfe0;
 }

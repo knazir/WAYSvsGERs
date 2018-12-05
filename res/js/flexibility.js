@@ -75,7 +75,7 @@
 
   /*** Generic Pie Helpers ***/
 
-  function setupMultiPie(chartData, courses, setupCallback, colorIndex) {
+  function setupMultiPie(chartData, courses, setupCallback, colorIndex, useConsistentColors = false) {
     const multiOpts = {
       onClick: (activePoint, dataset) => {
         // if (!activePoint) return;
@@ -99,7 +99,6 @@
         }
         else nSections++;
       });
-
       if (!isDepartments && !isRequirements) isDepartments = true;
 
       let text = `${nSections} `;
@@ -112,18 +111,20 @@
         chartOpts.pieceUnits = "departments";
       }
 
+      if (useConsistentColors) chartOpts.colorMapping = GER_COLORS;
       chartOpts.chartOpts.elements = {
         center: {
           text: text.trim()
         }
       };
+
       return new DonutChart(canvas, chartOpts, dataset);
     };
+
     return new MultiChart(document.querySelector(".flexibility .graphic"), producer, multiOpts, chartData);
   }
 
   function setupGerPies(courses, focusedDataset = null) {
-    console.log(GER_PIES);
     const {chartData} = computeDepartmentMakeup(courses, GERS);
     focusedDataset ?
       setupFocusedPie(focusedDataset, courses, setupGerPies) :
@@ -133,7 +134,6 @@
   /*** GER Bars ***/
 
   function setupGerBars(courses) {
-    console.log(GER_BARS);
     const counts = computeCounts(courses, GERS);
     const opts = {
       chartOpts: { title: { display: true, text: "Distribution of GERs (2012)", fontSize: 18 } },
@@ -148,7 +148,6 @@
   /*** WAYS Bars ***/
 
   function setupWaysBars(courses) {
-    console.log(WAYS_BARS);
     const counts = computeCounts(courses, WAYS);
     const opts = {
       chartOpts: {
@@ -164,7 +163,7 @@
 
   /*** GER Pies ***/
 
-  function setupFocusedPie(focusedDataset, courses, setupCallback, colorIndex) {
+  function setupFocusedPie(focusedDataset, courses, setupCallback, colorIndex, useConsistentColors = false) {
     let nSections = 0;
     let isDepartments = false;
     let isRequirements = false;
@@ -196,6 +195,7 @@
         clearGraphic();
         setupCallback(courses);
       },
+      colorMapping: useConsistentColors ? GER_COLORS : null,
       colorIndex: colorIndex,
       pieceUnits: pieceUnits,
       chartOpts: {
@@ -213,7 +213,6 @@
   /*** WAYS Pies Depts ***/
 
   function setupWaysPiesDepts(courses, focusedDataset = null) {
-    console.log(WAYS_PIES_DEPTS);
     const {chartData} = computeDepartmentMakeup(courses, WAYS);
     focusedDataset ?
       setupFocusedPie(focusedDataset, courses, setupWaysPiesDepts) :
@@ -251,11 +250,10 @@
   }
 
   function setupWaysPiesGers(courses, focusedDataset = null) {
-    console.log(WAYS_PIES_GERS);
     const {waysGerMakeup, chartData} = computeWaysGerMakeup(courses);
     focusedDataset ?
-      setupFocusedPie(focusedDataset, courses, setupWaysPiesGers, 14) :
-      setupMultiPie(chartData, courses, setupWaysPiesGers, 14);
+      setupFocusedPie(focusedDataset, courses, setupWaysPiesGers, 14, true) :
+      setupMultiPie(chartData, courses, setupWaysPiesGers, 10, true);
   }
 
   /*** Comparison ***/

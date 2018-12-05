@@ -120,7 +120,6 @@ function computeDepartmentMakeup(courses, system) {
 /*** GER Bars ***/
 
 function setupGerBars(courses, visual) {
-  console.log(GER_BARS);
   const counts = computeCounts(courses, GERS);
   new BarChart(d3.select(".flexibility .graphic"), counts);
 }

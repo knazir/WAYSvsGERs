@@ -37,6 +37,14 @@ function getColors(startIndex = 9) {
   return [...colors.slice(startIndex), ...colors.slice(0, startIndex)];
 }
 
+const GER_COLORS = {};
+const gerPalette = getColors(10);
+[...Object.values(GERS), "NEW"].forEach((ger, i) => GER_COLORS[ger] = gerPalette[i]);
+
+const WAYS_COLORS = {};
+const waysPalette = getColors(9);
+[...Object.values(WAYS), "NEW"].forEach((way, i) => WAYS_COLORS[way] = waysPalette[i]);
+
 function formatCourse(course) {
   //id,dept,number,title,description,units,ways,gers,terms,enrollmentAut,enrollmentWin,enrollmentSpr,enrollmentSum
   let unitStr = course.units.replace(/\s+/, "");

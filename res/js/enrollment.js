@@ -34,12 +34,50 @@
         courses[courseName].enrollmentByYear[year] = { total: yearEnrollmentTotal, average: yearEnrollmentAverage };
       });
     });
-    return Object.values(courses);
+    const coursesWithEnrollment = Object.values(courses);
+    coursesWithEnrollment.forEach(course => {
+      for (let i = 2010; i <= 2017; i++) {
+        if (!course.enrollmentByYear[i]) course.enrollmentByYear[i] = { total: NaN, average: NaN };
+      }
+    });
+    return coursesWithEnrollment;
   }
 
   /*** Generic Line Chart ***/
 
   function getEnrollmentBreakdown(data, title, defaultThreshold, system, filters) {
+    const onLineChartClick = (e, activePoints, chart) => {
+      if (activePoints.length === 0) return;
+
+      const distance = (x1, y1, x2, y2) => {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+      };
+
+      const { layerX, layerY } = e;
+      const points = activePoints.filter(p => {
+        const { x, y } = p._view;
+        return distance(layerX, layerY, x, y) < 5;
+      });
+
+      const courseData = points.map(point => chart.chart.data.datasets[point._datasetIndex])
+        .map(courseSeries => {
+          return {
+            label: courseSeries.label,
+            data: chart.datasets[courseSeries.label],
+            backgroundColor: courseSeries.backgroundColor,
+            borderColor: courseSeries.borderColor
+          };
+        });
+
+      breakdownChart.focusCourses(courseData);
+    };
+
+    const onDonutChartClick = (activePoint, dataset, chart) => {
+      if (!activePoint) return;
+      const req = dataset.data[activePoint._index].name;
+      breakdownChart.focusRequirement(req);
+    };
+
     const opts = {
       defaultThreshold: defaultThreshold,
       defaultStartYear: 2012,
@@ -51,7 +89,8 @@
         chartOpts: { title: { display: true, text: title, fontSize: 14 } },
         verticalLines: getWaysTransitionVerticalLine(),
         xAxisLabel: "Year",
-        yAxisLabel: "Number of Students"
+        yAxisLabel: "Number of Students",
+        onClick: onLineChartClick
       },
       donutOpts: {
         chartOpts: {
@@ -61,10 +100,14 @@
           }
         },
         pieceUnits: "courses",
-        colorIndex: 12
+        colorIndex: 12,
+        onClick: onDonutChartClick
       }
     };
-    return new EnrollmentBreakdown(document.querySelector(".enrollment .graphic"), opts, data);
+    const breakdownChart = new EnrollmentBreakdown(document.querySelector(".enrollment .graphic"), opts, data);
+    window.breakdownChart = breakdownChart;
+    breakdownChart.freezeData();
+    return breakdownChart;
   }
 
   function getWaysTransitionVerticalLine() {
@@ -96,14 +139,13 @@
   }
 
   function setupGerNoWays(coursesByYear) {
-    console.log(GER_NO_WAYS);
     let data;
     if (storedData) data = storedData;
     storedData = data = computeEnrollmentOverTime(coursesByYear);
     const title = "Enrollment Changes for Classes Satisfying GERs but no WAYS Requirements";
     const filters =[
       course => hasGerButNoWays(course),
-      course => courseOfferedThroughout(course, 2013, 2015)
+      // course => courseOfferedThroughout(course, 2013, 2015)
     ];
 
     const updateThreshold = e => {
@@ -112,7 +154,7 @@
     };
 
     const thresholdInput = document.querySelector("#inEnBr0");
-    thresholdInput.addEventListener("keyup", updateThreshold);
+    // thresholdInput.addEventListener("keyup", updateThreshold);
     thresholdInput.addEventListener("change", updateThreshold);
 
     const startYearSelect = document.querySelector("#sel0EnBr0");
@@ -134,6 +176,8 @@
       });
     });
 
+    document.querySelector("#reset0").addEventListener("click", e => chart.reset());
+
     const chart = getEnrollmentBreakdown(data, title, -30, GERS, filters);
   }
 
@@ -144,14 +188,13 @@
   }
 
   function setupNoGerWays(coursesByYear) {
-    console.log(NO_GER_WAYS);
     let data;
     if (storedData) data = storedData;
     storedData = data = computeEnrollmentOverTime(coursesByYear);
     const title = "Enrollment Changes for Classes NOT Satisfying GERs but Gaining WAYS Requirements";
     const filters =[
       course => hasWaysButNoGers(course),
-      course => courseOfferedThroughout(course, 2013, 2015)
+      // course => courseOfferedThroughout(course, 2013, 2015)
     ];
 
     const updateThreshold = e => {
@@ -160,7 +203,7 @@
     };
 
     const thresholdInput = document.querySelector("#inEnBr1");
-    thresholdInput.addEventListener("keyup", updateThreshold);
+    // thresholdInput.addEventListener("keyup", updateThreshold);
     thresholdInput.addEventListener("change", updateThreshold);
 
     const startYearSelect = document.querySelector("#sel0EnBr1");
@@ -173,6 +216,8 @@
         option.disabled = Number(option.textContent) <= chart.startYear;
       });
     });
+
+    document.querySelector("#reset1").addEventListener("click", e => chart.reset());
 
     document.querySelector("#sel1EnBr1").addEventListener("change", e => {
       const endYear = Number(e.target.value);
@@ -219,6 +264,6 @@
       }
     });
 
-    setupGerNoWays(coursesByYear);
+    storedData = computeEnrollmentOverTime(coursesByYear);
   });
 })();

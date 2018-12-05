@@ -91,7 +91,9 @@ class DonutChart {
     return [{
       label: this.opts.seriesName || "",
       data: this.dataset.data.map(d => d.value),
-      backgroundColor: getColors(this.opts.colorIndex)
+      backgroundColor: this.opts.colorMapping ?
+        this.dataset.data.map(d => this.opts.colorMapping[d.name]) :
+        getColors(this.opts.colorIndex)
     }];
   }
 

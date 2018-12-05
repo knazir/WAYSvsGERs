@@ -72,37 +72,51 @@
             <div class="text">
                 <div class="step" data-index="0">
                     <h4>Distribution of GERs</h4>
-                    Sed eget est ac ex congue pretium. Etiam interdum pellentesque orci sed aliquet. Mauris pulvinar
-                    molestie felis, vitae fringilla velit consectetur eu. Suspendisse ante tellus, laoreet ut nunc sit
-                    amet, cursus ultricies tortor. Praesent non posuere mi. In vehicula volutpat mattis. Mauris velit
-                    mauris, pellentesque sed erat efficitur, condimentum bibendum velit.
+                    For the GER Area Requirements, students have to 1) take 5 Disciplinary Breadth (DB) courses, one
+                    from each DB category and 2) take 2 courses in 2 different Education for Citizenship (EC) subject
+                    areas. As we can see from the chart below, classes that satisfy the humanities requirement outnumber
+                    math and social sciences combined. The EC categories have the lowest number of courses offered;
+                    however, students only have to choose 2 classes out of the 4 categories.
                 </div>
                 <div class="step" data-index="1">
                     <h4>Distribution of WAYS Requirements</h4>
-                    Suspendisse non mattis metus. Nam sit amet nibh eleifend, maximus ipsum blandit, suscipit quam.
-                    Pellentesque nulla lectus, malesuada ac tincidunt ac, faucibus non nulla. Vestibulum mattis neque
-                    eget odio bibendum, sed blandit lectus elementum.
+                    The Ways program is comprised of eight Ways requirements. Students must take a total of eleven
+                    courses: 2 courses each in AII (Aesthetic and Interpretive Inquiry), SMA (Scientific Method and
+                    Analysis), and SI (Social Inquiry); 1 course each in AQR (Applied Quantitative Reasoning), CE
+                    (Creative Expression), ED (Engaging Diversity), ER (Ethical Reasoning), and FR (Formal Reasoning).
+                    Similar to the GERs, there is an uneven distribution of the number of classes across the different
+                    WAYS categories. Interestingly, students have to take 2 classes from the categories with the
+                    smallest number of courses, SI and SMA. 🤔
                 </div>
                 <div class="step" data-index="2">
                     <h4>Departmental Makeup of GERs</h4>
-                    First we show the departmental makeup of each GER. Hover over a slice of the pie chart to see the
-                    number of classes from a particular department.
+                    DB-Humanities has the largest number of courses, and its courses are scattered across a huge variety
+                    of departments. DB-Math has the second largest number of courses, but has the smallest number of
+                    departments. The “Other” category includes all of the departments that make up less than 3.5% of the
+                    total number of courses. (Hover over a slice of the donut chart to see the number of classes from a
+                    particular department. Click on the donut chart to enlarge).
                 </div>
                 <div class="step" data-index="3">
                     <h4>Departmental Makeup of WAYS Requirements</h4>
-                    Now we show the departmental makeup of each WAYS requirement. Again, you can hover over a slice of
-                    the pie chart to see the number of classes from a particular department. Compared to the GER pie
-                    charts above, you can see that courses that fulfill WAYS requirements come from a larger variety
-                    of departments.
+                    Compared to the DER donut charts above, WAYS requirements seem to come from a larger variety of
+                    departments. The biggest difference between GERs and WAYS is the addition of the Creative Expression
+                    requirements, which includes courses from the Theater and Performance Studies, Music, Dance, and
+                    Art Studio departments. Although the ethical reasoning requirement is the only requirement to have
+                    persisted across the two programs, it has evolved have a very different composition of departments.
+                    The GER EC-Ethical Reasoning had 104 classes across 19 departments, compared to WAYS-Ethical
+                    Reasoning, which includes 270 classes across 46 departments.
                 </div>
                 <div class="step" data-index="4">
                     <h4>Comparison</h4>
-                    Here is a side by side comparison of GERs vs WAYS. Based on our criteria for flexibility, it looks
-                    like WAYS requirement did increase the flexibility of course choices for students.
+                    Since there are more WAYS courses than GER courses and WAYS requirements are found in a larger
+                    number of departments, it looks like the WAYS system did increase the flexibility of course
+                    choices for students.
                 </div>
                 <div class="step" data-index="5">
                     <h4>GER Makeup of WAYS Requirements</h4>
-                    You can also see the GER makeup of each WAYS requirement.
+                    For all of the WAYS categories, the majority of classes are “New”, which are classes that were not
+                    previously GERs. Again, this shows that CE was the largest difference between GERs and WAYS
+                    requirements.
                 </div>
             </div>
             <div class="graphic">
@@ -116,17 +130,22 @@
         <header class="enrollment"><div>Enrollment</div></header>
         <div class="intro enrollment">
             Another metric we used to examine the effectiveness of the new WAYS systems was the course enrollment data.
-            We have tracked significant change in enrollment for two categories of classes: (1) Classes that satisfied
-            GERs but were not converted to satisfy any WAYS requirements and (2) Classes that satisfied no GERs but
-            were made to satisfy WAYS requirements.
+            We have tracked significant change in enrollment for two categories of classes:
+            <ol>
+                <li>Classes that satisfied GERs but were not converted to satisfy any WAYS requirements</li>
+                <li>Classes that satisfied no GERs but were made to satisfy WAYS requirements.</li>
+            </ol>
         </div>
         <section class="enrollment">
             <div class="text">
                 <div class="step" data-index="0">
                     <h4>GER classes that do not fulfill any WAYS requirements</h4>
+                    You can adjust the number of classes shown in the chart by selecting the minimum percent decrease in
+                    enrollment from 2012-2017. It seems like many of the classes that experienced a sharp decline were
+                    DB-EngrAppSci courses (Hover over a line to see the enrollment change for a particular course).
 
                     <div class="enrollment-select-sentence">
-                        <label for="inEnBr0">Display classes where enrollment changed by</label>
+                        <label for="inEnBr0">Display classes where enrollment changed by at least</label>
                         <input name="inEnBr0" id="inEnBr0" type="number" value="-30">%
                         <label for="sel0EnBr0">from</label>
                         <select id="sel0EnBr0">
@@ -150,13 +169,19 @@
                             <option>2016</option>
                             <option>2017</option>
                         </select>
+                        <button id="reset0">Reset</button>
                     </div>
                 </div>
                 <div class="step" data-index="1">
                     <h4>No GERs -> WAYS</h4>
+                    Again, you can adjust the number of classes shown in the chart by selecting the minimum percent
+                    increase in enrollment from 2012-2017. Interestingly, between 2013-2016, the class with the largest
+                    increase in enrollment is MS&E 193, which fulfills multiple WAYS requirements as well as a
+                    Technology in Society requirement for engineering students. Many CE and SI courses also experienced
+                    large increases in enrollment after the change from GERs to WAYS.
 
                     <div class="enrollment-select-sentence">
-                        <label for="inEnBr0">Display classes where enrollment changed by</label>
+                        <label for="inEnBr0">Display classes where enrollment changed by at least</label>
                         <input name="inEnBr1" id="inEnBr1" type="number" value="30">%
                         <label for="sel0EnBr1">from</label>
                         <select id="sel0EnBr1">
@@ -180,6 +205,7 @@
                             <option>2016</option>
                             <option>2017</option>
                         </select>
+                        <button id="reset1">Reset</button>
                     </div>
                 </div>
             </div>
@@ -187,23 +213,6 @@
                 <div>
                     <canvas></canvas>
                 </div>
-            </div>
-        </section>
-
-        <!-- Explore -->
-        <header class="explore"><div>Explore</div></header>
-        <div class="intro explore">
-            We will first compare the flexibility between the GERs and WAYS system. For each requirement, we will
-            measure flexibility by looking at the total number of courses that will fulfill that particular requirement
-            and the departments that those courses belong to. We decided to use the courses from the 2013-2014 course
-            catalog because that was the first year the WAYS system was implemented. Upperclassmen can decide if they
-            want to stay on the GER system or switch to WAYS while freshmen will be required to fulfill WAYS
-            requirements.
-        </div>
-        <section class="explore" style="padding: 0">
-            <div class="graphic" style="padding: 0">
-                <div id="clusterBox"></div>
-                <div id="tooltip" style="opacity: 0;"></div>
             </div>
         </section>
     </article>
