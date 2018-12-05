@@ -100,6 +100,8 @@
         else nSections++;
       });
 
+      if (!isDepartments && !isRequirements) isDepartments = true;
+
       let text = `${nSections} `;
       if (isDepartments) {
         text += "Depts";
