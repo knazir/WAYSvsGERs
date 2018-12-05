@@ -253,7 +253,7 @@
 
     enterView({
       selector: ".enrollment .text .step",
-      offset: 0.6,
+      offset: 0.8,
       enter: element => {
         const index = Number(d3.select(element).attr("data-index"));
         setupGraphic(enrollmentGraphicsOrder[index]);
